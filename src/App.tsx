@@ -1,14 +1,17 @@
+import BalanceCard from "./components/BalanceCard";
+import { CssBaseline, Container } from "@mui/material";
 
-import MiComponente from "./components/MiComponente";
-import './App.css'
+import "./App.css";
 
 function App() {
-
   return (
     <>
-       <MiComponente />
+      <CssBaseline /> {/* normaliza estilos MUI */}
+      <Container sx={{ py: 4 }}>
+        <BalanceCard />
+      </Container>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
