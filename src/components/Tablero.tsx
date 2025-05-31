@@ -1,26 +1,27 @@
-import { Box, Stack, Button, Chip } from "@mui/material";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { play, reset } from "../store/gameSlice";
 import Casilla from "./Casilla";
-import { useGame } from "../context/GameContext";
+import { Box, Stack, Button, Chip } from "@mui/material";
 
 export default function Tablero() {
-  const { board, turn, winner, play, reset } = useGame();
+  const board  = useAppSelector((s) => s.game.board);
+  const turn   = useAppSelector((s) => s.game.turn);
+  const winner = useAppSelector((s) => s.game.winner);
+  const dispatch = useAppDispatch();
 
-  /* ---------- UI ---------- */
   return (
-    <Stack
-      spacing={2}
-      p={2}
-      border={1}
-      borderColor="plum"
-      maxWidth={370}
-      mx="auto"
-    >
+    <Stack spacing={2} p={2} border={1} borderColor="plum" maxWidth={370} mx="auto">
       <Stack direction="row" spacing={1} justifyContent="center">
         <Chip
-          label={winner ? `PLAYER ${winner === "O" ? 1 : 2} WINS` : `NEXT: PLAYER ${turn === "O" ? 1 : 2}`}
+          label={
+            winner
+              ? `PLAYER ${winner === "O" ? 1 : 2} WINS`
+              : `NEXT: PLAYER ${turn === "O" ? 1 : 2}`
+          }
           color="warning"
           variant="outlined"
         />
+
         {winner && (
           <Chip
             label={`PLAYER ${winner === "O" ? 1 : 2} WINS`}
@@ -28,17 +29,23 @@ export default function Tablero() {
             variant="outlined"
           />
         )}
-        <Button variant="contained" color="success" onClick={reset}>
+
+        {/*  ← botón corregido */}
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => dispatch(reset())}
+        >
           NEW GAME
         </Button>
       </Stack>
 
       {/* tablero 3×3 */}
-      <Box sx={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:2 }}>
-      {board.map((cell,i)=>(
-        <Casilla key={i} value={cell} onClick={()=>play(i)} />
-      ))}
-    </Box>
+      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2 }}>
+        {board.map((cell, i) => (
+          <Casilla key={i} value={cell} onClick={() => dispatch(play(i))} />
+        ))}
+      </Box>
     </Stack>
   );
 }

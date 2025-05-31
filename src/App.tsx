@@ -1,12 +1,11 @@
-import { CssBaseline } from "@mui/material";
-import { GameProvider } from "./context/GameContext";
+import { Provider } from "react-redux";
+import { store } from "./store";
 import Tablero from "./components/Tablero";
+import { CssBaseline } from "@mui/material";
 
-export default function App() {
-  return (
-    <GameProvider>
-      <CssBaseline />
-      <Tablero />
-    </GameProvider>
-  );
-}
+export default () => (
+  <Provider store={store}>
+    <CssBaseline />
+    <Tablero />
+  </Provider>
+);
