@@ -1,9 +1,13 @@
-import { Box, Stack, Button, Chip } from "@mui/material";
+import { useGameStore } from "../store/useGameStore";
 import Casilla from "./Casilla";
-import { useGame } from "../context/GameContext";
+import { Box, Stack, Button, Chip } from "@mui/material";
 
-export default function Tablero() {
-  const { board, turn, winner, play, reset } = useGame();
+export default function Tablero(){
+  const board  = useGameStore(s=>s.board);
+  const turn   = useGameStore(s=>s.turn);
+  const winner = useGameStore(s=>s.winner);
+  const play   = useGameStore(s=>s.play);
+  const reset  = useGameStore(s=>s.reset);
 
   /* ---------- UI ---------- */
   return (
@@ -36,7 +40,7 @@ export default function Tablero() {
       {/* tablero 3×3 */}
       <Box sx={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:2 }}>
       {board.map((cell,i)=>(
-        <Casilla key={i} value={cell} onClick={()=>play(i)} />
+        <Casilla key={i} value={cell} onClick={()=>play(i)}/>
       ))}
     </Box>
     </Stack>
